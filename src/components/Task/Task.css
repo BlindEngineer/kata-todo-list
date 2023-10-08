@@ -1,0 +1,57 @@
+.icon {
+    position: absolute;
+    top: 0;
+    bottom: -3px;
+    width: 30px;
+    height: 40px;
+    font-size: 34px;
+    color: #cc9a9a;
+    margin: auto 0 11px;
+    transition: color 0.2s ease-out;
+    cursor: pointer;
+}
+
+.icon:hover {
+    color: #af5b5e;
+}
+
+.icon-destroy {
+    right: 10px;
+}
+
+.icon-destroy:after {
+    content: '×';
+}
+
+.icon-edit {
+    font-size: 19px;
+    right: 45px;
+}
+
+.icon-edit:after {
+    content: '✎';
+}
+
+.edit {
+    display: none;
+}
+
+button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 100%;
+    vertical-align: baseline;
+    font-family: inherit;
+    font-weight: inherit;
+    color: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+button::-moz-focus-inner {
+    border: none;
+}
