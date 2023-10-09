@@ -14,28 +14,20 @@ export default class App extends React.Component {
     ]
   }
 
+
+
   toCompleted = (id) => {
     this.setState(({todoData}) => {
       let index = todoData.findIndex((el) => el.id === id);
-    const newTodoData = [...this.state.todoData];
-    if (newTodoData[index].status === "completed") {
-      newTodoData[index].status = null;
-    } else {
-      newTodoData[index].status = "completed";
-    }
-    return {todoData: newTodoData};
-  });
+      const oldItem = todoData[index];
+      const newItem = {...oldItem, status: oldItem.status === "completed" ? null : "completed"};
+      return {todoData: todoData.with(index, newItem)};
+    });
   }
 
   deleteItem = (id) => {
-    this.setState(({ todoData }) => {
-      let delIndex = todoData.findIndex((el) => el.id === id);
-
-      const newArray = todoData.filter((todo, index) => {
-        return delIndex !== index;
-      });
-      console.log(newArray);
-      return {todoData: newArray}
+    this.setState(({todoData}) => {
+      return ({todoData: todoData.filter((el) => el.id !== id)});
     });
   }
 
@@ -44,9 +36,9 @@ export default class App extends React.Component {
       <section className="todoapp">
         <NewTaskForm/>
         <section className="main">
-          <TaskList todos={ this.state.todoData }
-                    toCompleted={ this.toCompleted }
-                    deleteItem={ this.deleteItem }
+          <TaskList todos={this.state.todoData}
+                    toCompleted={this.toCompleted}
+                    deleteItem={this.deleteItem}
           />
           <Footer todos={this.state.todoData}/>
         </section>
