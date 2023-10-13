@@ -8,21 +8,18 @@ export default function TaskList({todos, toCompleted, deleteItem}) {
 
   const listOfTasks = todos.map((todo) => {
     return (
-      <li className={todo.status} key={todo.id}>
+      <li className={todo.done ? 'completed' : null} key={todo.id} >
         <Task
           description={todo.description}
           created={todo.created}
-          status={todo.status}
+          done={todo.done}
           toggleComplete={() => toCompleted(todo.id)}
           onDeleted={() => deleteItem(todo.id)}
         />
-        {
-          todo.status === "editing" &&
-          <input type="text" className="edit" defaultValue="Editing task"/>
-        }
       </li>
     );
   });
+
 
   return (
     <ul className="todo-list">
