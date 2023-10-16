@@ -6,6 +6,7 @@ import './App.css';
 import NewTaskForm from "../NewTaskForm/NewTaskForm";
 import TaskList from "../TaskList/TaskList";
 import Footer from "../Footer/Footer";
+import PropTypes from "prop-types";
 
 export default class App extends React.Component {
 
@@ -18,12 +19,14 @@ export default class App extends React.Component {
     filter: 'All'
   };
 
+
   createItem(text) {
     return {
-      description: text,
+      description: text.trim(),
       created: Date.now(),
       id: nanoid(),
-      done: false
+      done: false,
+      editing: false
     }
   }
 
@@ -36,7 +39,7 @@ export default class App extends React.Component {
 
   addItemToList = (text) => {
     const newItem = this.createItem(text);
-    this.setState(({ todoData }) => {
+    this.setState(({todoData}) => {
       const newArr = [...todoData, newItem];
       return {todoData: newArr};
     });
@@ -48,6 +51,30 @@ export default class App extends React.Component {
       const oldItem = todoData[index];
       const newItem = {...oldItem, done: !oldItem.done};
       return {todoData: todoData.with(index, newItem)};
+    });
+  }
+
+  //Доступно редактирование только незавершенных задач:
+  toEditing = (id) => {
+    this.setState(({todoData}) => {
+      let index = todoData.findIndex((el) => el.id === id);
+      const oldItem = todoData[index];
+      if (!oldItem.done) {
+        const newItem = {...oldItem, editing: !oldItem.editing};
+        return {todoData: todoData.with(index, newItem)};
+      }
+      return true;
+    });
+  }
+
+  onEditingSubmit = (id, text) => {
+    this.setState(({todoData}) => {
+      let index = todoData.findIndex((el) => el.id === id);
+      const oldItem = todoData[index];
+      const newItem = {...oldItem, description: text.trim(), editing: false};
+      if (text.trim() !== ''){
+      return {todoData: todoData.with(index, newItem)};
+      }
     });
   }
 
@@ -64,9 +91,10 @@ export default class App extends React.Component {
 
   render() {
     const {todoData, filter} = this.state;
-    const countOfUndone = todoData.filter((todo) => !todo.done).length;
+    const countOfUndone = todoData.filter(todo => !todo.done).length;
 
-    const filteredTasks = todoData.filter( todo => {
+
+    const filteredTasks = todoData.filter(todo => {
         if (filter === 'All') return true;
         if (filter === 'Active') return !todo.done;
         if (filter === 'Completed') return todo.done;
@@ -78,17 +106,31 @@ export default class App extends React.Component {
       <section className="todoapp">
         <NewTaskForm addItemToList={this.addItemToList}/>
         <section className="main">
-          <TaskList todos={ filteredTasks }
+          <TaskList todos={filteredTasks}
                     toCompleted={this.toCompleted}
                     deleteItem={this.deleteItem}
+                    toEditing={this.toEditing}
+                    onEditingSubmit={this.onEditingSubmit}
           />
           <Footer count={countOfUndone}
-                  filterValue={this.state.filter}
+                  filterValue={filter}
                   onFilterChange={this.onFilterChange}
-                  deleteAllDone={this.deleteAllDone}/>
+                  deleteAllDone={this.deleteAllDone}>
+          {/*  тест children*/}
+          {/*<h4 style={{color:'red'}}>COLOR</h4>vcvccvvcv*/}
+          </Footer>
         </section>
       </section>
     );
   }
 }
 
+App.defaultProps = {
+  todoData: [],
+  filter: 'All'
+}
+
+App.propTypes = {
+  todoData: PropTypes.arrayOf(PropTypes.object),
+  filter: PropTypes.oneOf(['All', 'Active', 'Completed'])
+}

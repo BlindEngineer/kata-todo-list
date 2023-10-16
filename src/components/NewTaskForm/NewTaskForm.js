@@ -1,6 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import './NewTaskForm.css';
+
 
 export default class NewTaskForm extends React.Component {
 
@@ -14,8 +16,9 @@ export default class NewTaskForm extends React.Component {
 
   onSubmit = (evt) => {
     evt.preventDefault();
+    if (this.state.label.trim() !== ''){
     this.props.addItemToList(this.state.label);
-    this.setState({label: ''});
+    this.setState({label: ''});}
   }
 
 
@@ -36,4 +39,12 @@ export default class NewTaskForm extends React.Component {
       </header>
     )
   }
+}
+
+NewTaskForm.defaultProps = {
+  addItemToList: () => {}
+}
+
+NewTaskForm.propTypes = {
+  addItemToList: PropTypes.func
 }
