@@ -1,28 +1,30 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import './NewTaskForm.css';
-
+import './NewTaskForm.css'
 
 export default class NewTaskForm extends React.Component {
-
+  // eslint-disable-next-line react/state-in-constructor
   state = {
-    label: ''
+    label: '',
   }
 
   onChangeLabel = (evt) => {
-    this.setState({label: evt.target.value})
+    this.setState({ label: evt.target.value })
   }
 
   onSubmit = (evt) => {
-    evt.preventDefault();
-    if (this.state.label.trim() !== ''){
-    this.props.addItemToList(this.state.label);
-    this.setState({label: ''});}
+    const { label } = this.state
+    const { addItemToList } = this.props
+    evt.preventDefault()
+    if (label.trim() !== '') {
+      addItemToList(label)
+      this.setState({ label: '' })
+    }
   }
 
-
   render() {
+    const { label } = this.state
     return (
       <header className="header">
         <h1>Todos</h1>
@@ -31,8 +33,9 @@ export default class NewTaskForm extends React.Component {
             type="text"
             className="new-todo"
             placeholder="What needs to be done?"
+            /* eslint-disable-next-line jsx-a11y/no-autofocus */
             autoFocus
-            value={this.state.label}
+            value={label}
             onChange={this.onChangeLabel}
           />
         </form>
@@ -42,9 +45,9 @@ export default class NewTaskForm extends React.Component {
 }
 
 NewTaskForm.defaultProps = {
-  addItemToList: () => {}
+  addItemToList: () => {},
 }
 
 NewTaskForm.propTypes = {
-  addItemToList: PropTypes.func
+  addItemToList: PropTypes.func,
 }

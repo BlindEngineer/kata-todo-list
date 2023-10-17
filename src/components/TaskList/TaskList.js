@@ -1,17 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 
-import Task from "../Task/Task";
+import Task from '../Task/Task'
 
-import './TaskList.css';
+import './TaskList.css'
 
-
-export default function TaskList({todos, toCompleted, deleteItem, toEditing, onEditingSubmit}) {
-
+export default function TaskList({ todos, toCompleted, deleteItem, toEditing, onEditingSubmit }) {
   const listOfTasks = todos.map((todo) => {
-    let ListItemClasses = todo.done ? 'completed' : '';
+    let ListItemClasses = todo.done ? 'completed' : ''
     if (!todo.done && todo.editing) {
-      ListItemClasses += 'editing';
+      ListItemClasses += 'editing'
     }
 
     return (
@@ -27,27 +24,18 @@ export default function TaskList({todos, toCompleted, deleteItem, toEditing, onE
           onEditingSubmit={(text) => onEditingSubmit(todo.id, text)}
         />
       </li>
-    );
-  });
+    )
+  })
 
-
-  return (
-    <ul className="todo-list">
-      {listOfTasks}
-    </ul>
-  );
+  return <ul className="todo-list">{listOfTasks}</ul>
 }
 
 TaskList.defaultProps = {
   todos: [],
-  toCompleted: () => {
-  },
-  deleteItem: () => {
-  },
-  toEditing: () => {
-  },
-  onEditingSubmit: () => {
-  }
+  toCompleted: () => {},
+  deleteItem: () => {},
+  toEditing: () => {},
+  onEditingSubmit: () => {},
 }
 
 TaskList.propTypes = {
@@ -55,5 +43,5 @@ TaskList.propTypes = {
   toCompleted: PropTypes.func,
   deleteItem: PropTypes.func,
   toEditing: PropTypes.func,
-  onEditingSubmit: PropTypes.func
+  onEditingSubmit: PropTypes.func,
 }
