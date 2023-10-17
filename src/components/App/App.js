@@ -9,7 +9,7 @@ import Footer from '../Footer/Footer'
 export default class App extends React.Component {
   // eslint-disable-next-line react/state-in-constructor
   state = {
-    todoData: [this.createItem('Completed task'), this.createItem('Editing task'), this.createItem('Active task')],
+    todoData: [],
     filter: 'All',
   }
 
