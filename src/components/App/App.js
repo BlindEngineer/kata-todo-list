@@ -113,7 +113,7 @@ export default class App extends React.Component {
             onFilterChange={this.onFilterChange}
             deleteAllDone={this.deleteAllDone}
           >
-            {/*  тест children */}
+            {/*  тест  children */}
             {/* <h4 style={{color:'red'}}>COLOR</h4>vcvccvvcv */}
           </Footer>
         </section>
