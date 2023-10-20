@@ -7,8 +7,6 @@ import TaskFilter from '../TasksFilter/TaskFilter'
 export default function Footer({ onFilterChange, count, deleteAllDone, filterValue }) {
   return (
     <footer className="footer">
-      {/* тест */}
-      {/* {children} */}
       <span className="todo-count">{count} items left</span>
       <TaskFilter onFilterChange={onFilterChange} filterValue={filterValue} />
       <button type="button" className="clear-completed" onClick={deleteAllDone}>

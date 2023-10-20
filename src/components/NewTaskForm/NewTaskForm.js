@@ -4,9 +4,11 @@ import PropTypes from 'prop-types'
 import './NewTaskForm.css'
 
 export default class NewTaskForm extends React.Component {
-  // eslint-disable-next-line react/state-in-constructor
-  state = {
-    label: '',
+  constructor(props) {
+    super(props)
+    this.state = {
+      label: '',
+    }
   }
 
   onChangeLabel = (evt) => {
@@ -33,8 +35,6 @@ export default class NewTaskForm extends React.Component {
             type="text"
             className="new-todo"
             placeholder="What needs to be done?"
-            /* eslint-disable-next-line jsx-a11y/no-autofocus */
-            autoFocus
             value={label}
             onChange={this.onChangeLabel}
           />

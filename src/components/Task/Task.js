@@ -5,10 +5,12 @@ import { formatDistanceToNow } from 'date-fns'
 import './Task.css'
 
 export default class Task extends React.Component {
-  // eslint-disable-next-line react/state-in-constructor
-  state = {
-    // eslint-disable-next-line react/destructuring-assignment
-    editingValue: this.props.description,
+  constructor(props) {
+    super(props)
+    const { description } = this.props
+    this.state = {
+      editingValue: description,
+    }
   }
 
   onEditingLabel = (evt) => {
@@ -39,22 +41,28 @@ export default class Task extends React.Component {
       <>
         <div className="view">
           <input type="checkbox" checked={done} className="toggle" onChange={toggleComplete} />
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label>
-            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-            <span className={descriptionClassNames} onClick={toggleComplete}>
+          <label htmlFor="description">
+            <span
+              role="button"
+              tabIndex={0}
+              className={descriptionClassNames}
+              onClick={toggleComplete}
+              onKeyDown={(event) => (event.key === 'Enter' ? toggleComplete() : null)}
+            >
               {description}
             </span>
             <span className="created">Created {timeInWords} ago</span>
           </label>
-          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <button type="button" className="icon icon-edit" onClick={toEditing} />
-          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <button type="button" className="icon icon-destroy" onClick={onDeleted} />
+          <button type="button" className="icon icon-edit" onClick={toEditing} aria-label="log out" />
+          <button type="button" className="icon icon-destroy" onClick={onDeleted} aria-label="log out" />
         </div>
-        <form onSubmit={this.onSubmit}>
-          <input type="text" className="edit" value={editingValue} onChange={this.onEditingLabel} />
-        </form>
+        <input
+          type="text"
+          className="edit"
+          value={editingValue}
+          onKeyDown={(event) => (event.key === 'Enter' ? this.onSubmit(event) : null)}
+          onChange={this.onEditingLabel}
+        />
       </>
     )
   }
@@ -62,19 +70,17 @@ export default class Task extends React.Component {
 
 Task.defaultProps = {
   description: 'Задача без названия',
-  toggleComplete: () => {},
   toEditing: () => {},
   onEditingSubmit: () => {},
   done: false,
-  onDeleted: () => {},
   created: Date.now(),
 }
 
 Task.propTypes = {
   description: PropTypes.string,
-  toggleComplete: PropTypes.func,
+  toggleComplete: PropTypes.func.isRequired,
   done: PropTypes.bool,
-  onDeleted: PropTypes.func,
+  onDeleted: PropTypes.func.isRequired,
   toEditing: PropTypes.func,
   onEditingSubmit: PropTypes.func,
   created: PropTypes.number,

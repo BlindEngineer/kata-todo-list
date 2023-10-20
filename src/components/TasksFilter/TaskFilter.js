@@ -1,39 +1,25 @@
 import './TaskFilter.css'
 
 import PropTypes from 'prop-types'
+import { nanoid } from 'nanoid'
 
 export default function TaskFilter({ onFilterChange, filterValue }) {
-  return (
-    <ul className="filters">
-      <li>
+  const statuses = ['All', 'Active', 'Completed']
+  const statusButtons = statuses.map((status) => {
+    return (
+      <li key={nanoid()}>
         <button
           type="button"
-          className={filterValue === 'All' ? 'selected' : null}
-          onClick={() => onFilterChange('All')}
+          className={filterValue === status ? 'selected' : null}
+          onClick={() => onFilterChange(status)}
         >
-          All
+          {status}
         </button>
       </li>
-      <li>
-        <button
-          type="button"
-          className={filterValue === 'Active' ? 'selected' : null}
-          onClick={() => onFilterChange('Active')}
-        >
-          Active
-        </button>
-      </li>
-      <li>
-        <button
-          type="button"
-          className={filterValue === 'Completed' ? 'selected' : null}
-          onClick={() => onFilterChange('Completed')}
-        >
-          Completed
-        </button>
-      </li>
-    </ul>
-  )
+    )
+  })
+
+  return <ul className="filters">{statusButtons}</ul>
 }
 
 TaskFilter.defaultProps = {

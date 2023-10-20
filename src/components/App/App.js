@@ -7,10 +7,24 @@ import TaskList from '../TaskList/TaskList'
 import Footer from '../Footer/Footer'
 
 export default class App extends React.Component {
-  // eslint-disable-next-line react/state-in-constructor
-  state = {
-    todoData: [],
-    filter: 'All',
+  createItem
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      todoData: [],
+      filter: 'All',
+    }
+
+    this.createItem = (text) => {
+      return {
+        description: text.trim(),
+        created: Date.now(),
+        id: nanoid(),
+        done: false,
+        editing: false,
+      }
+    }
   }
 
   deleteItem = (id) => {
@@ -37,7 +51,6 @@ export default class App extends React.Component {
     })
   }
 
-  // Доступно редактирование только незавершенных задач:
   toEditing = (id) => {
     this.setState(({ todoData }) => {
       const index = todoData.findIndex((el) => el.id === id)
@@ -58,7 +71,6 @@ export default class App extends React.Component {
       if (text.trim() !== '') {
         return { todoData: todoData.with(index, newItem) }
       }
-      // проверить позже
       return true
     })
   }
@@ -72,17 +84,6 @@ export default class App extends React.Component {
       const undoneList = todoData.filter((todo) => !todo.done)
       return { todoData: undoneList }
     })
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  createItem(text) {
-    return {
-      description: text.trim(),
-      created: Date.now(),
-      id: nanoid(),
-      done: false,
-      editing: false,
-    }
   }
 
   render() {
@@ -112,10 +113,7 @@ export default class App extends React.Component {
             filterValue={filter}
             onFilterChange={this.onFilterChange}
             deleteAllDone={this.deleteAllDone}
-          >
-            {/*  тест  children */}
-            {/* <h4 style={{color:'red'}}>COLOR</h4>vcvccvvcv */}
-          </Footer>
+          />
         </section>
       </section>
     )
