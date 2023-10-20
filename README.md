@@ -1,6 +1,6 @@
 # kata-todo-list
 
 ### Vercel link:
-https://todoapp-eight-beta.vercel.app/
+https://kata-todo-list1984.vercel.app/
 
 
