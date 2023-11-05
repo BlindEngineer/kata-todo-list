@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
 
 import './Task.css'
+import Timer from '../Timer/Timer'
 
 export default class Task extends React.Component {
   constructor(props) {
@@ -10,6 +11,14 @@ export default class Task extends React.Component {
     const { description } = this.props
     this.state = {
       editingValue: description,
+    }
+    this.formatMinutes = (remainingTime) => {
+      const minutes = Math.floor(remainingTime / 60000)
+      return minutes < 10 ? `0${minutes}` : minutes
+    }
+    this.formatSeconds = (remainingTime) => {
+      const seconds = Math.floor((remainingTime % 60000) / 1000)
+      return seconds < 10 ? `0${seconds}` : seconds
     }
   }
 
@@ -25,9 +34,11 @@ export default class Task extends React.Component {
   }
 
   render() {
-    const { description, created, toggleComplete, done, onDeleted, toEditing } = this.props
+    const { description, remainingTime, created, toggleComplete, done, onDeleted, toEditing } = this.props
     const { editingValue } = this.state
 
+    const minutes = this.formatMinutes(remainingTime)
+    const seconds = this.formatSeconds(remainingTime)
     let descriptionClassNames = 'description'
     if (done) {
       descriptionClassNames += ' done'
@@ -51,6 +62,7 @@ export default class Task extends React.Component {
             >
               {description}
             </span>
+            <Timer minutes={minutes} seconds={seconds} />
             <span className="created">Created {timeInWords} ago</span>
           </label>
           <button type="button" className="icon icon-edit" onClick={toEditing} aria-label="log out" />

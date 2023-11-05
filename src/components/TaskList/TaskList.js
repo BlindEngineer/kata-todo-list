@@ -18,6 +18,7 @@ export default function TaskList({ todos, toCompleted, deleteItem, toEditing, on
           created={todo.created}
           done={todo.done}
           editing={todo.editing}
+          remainingTime={todo.remainingTime}
           toggleComplete={() => toCompleted(todo.id)}
           onDeleted={() => deleteItem(todo.id)}
           toEditing={() => toEditing(todo.id)}

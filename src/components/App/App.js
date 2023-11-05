@@ -16,15 +16,28 @@ export default class App extends React.Component {
       filter: 'All',
     }
 
-    this.createItem = (text) => {
+    this.createItem = (text, minute, sec) => {
       return {
         description: text.trim(),
         created: Date.now(),
         id: nanoid(),
         done: false,
         editing: false,
+        remainingTime: (minute * 60 + Number(sec)) * 1000,
+        deadline: null,
       }
     }
+  }
+
+  setDeadline = (id) => {
+    this.setState(({ todoData }) => {
+      const index = todoData.findIndex((el) => el.id === id)
+      const oldItem = todoData[index]
+      const deadline = oldItem.remainingTime + Date.now()
+      const newItem = { ...oldItem, deadline }
+      console.log(newItem.deadline)
+      return { todoData: todoData.with(index, newItem) }
+    })
   }
 
   deleteItem = (id) => {
@@ -34,12 +47,13 @@ export default class App extends React.Component {
     })
   }
 
-  addItemToList = (text) => {
-    const newItem = this.createItem(text)
+  addItemToList = (text, minute, sec) => {
+    const newItem = this.createItem(text, minute, sec)
     this.setState(({ todoData }) => {
       const newArr = [...todoData, newItem]
       return { todoData: newArr }
     })
+    this.setDeadline(newItem.id)
   }
 
   toCompleted = (id) => {
