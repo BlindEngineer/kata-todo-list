@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
 
 import './Task.css'
-import Timer from '../Timer/Timer'
 
 export default class Task extends React.Component {
   constructor(props) {
@@ -12,12 +11,12 @@ export default class Task extends React.Component {
     this.state = {
       editingValue: description,
     }
-    this.formatMinutes = (remainingTime) => {
-      const minutes = Math.floor(remainingTime / 60000)
+    this.formatMinutes = (time) => {
+      const minutes = Math.floor(time / 60000)
       return minutes < 10 ? `0${minutes}` : minutes
     }
-    this.formatSeconds = (remainingTime) => {
-      const seconds = Math.floor((remainingTime % 60000) / 1000)
+    this.formatSeconds = (time) => {
+      const seconds = Math.floor((time % 60000) / 1000)
       return seconds < 10 ? `0${seconds}` : seconds
     }
   }
@@ -34,7 +33,8 @@ export default class Task extends React.Component {
   }
 
   render() {
-    const { description, remainingTime, created, toggleComplete, done, onDeleted, toEditing } = this.props
+    const { description, remainingTime, created, toggleComplete, done, onDeleted, toEditing, startTimer, stopTimer } =
+      this.props
     const { editingValue } = this.state
 
     const minutes = this.formatMinutes(remainingTime)
@@ -62,11 +62,15 @@ export default class Task extends React.Component {
             >
               {description}
             </span>
-            <Timer minutes={minutes} seconds={seconds} />
+            <span className="description timer">
+              <button type="button" className="icon icon-play" aria-label="Play" onClick={startTimer} />
+              <button type="button" className="icon icon-pause" aria-label="Pause" onClick={stopTimer} />
+              {minutes}:{seconds}
+            </span>
             <span className="created">Created {timeInWords} ago</span>
           </label>
-          <button type="button" className="icon icon-edit" onClick={toEditing} aria-label="log out" />
-          <button type="button" className="icon icon-destroy" onClick={onDeleted} aria-label="log out" />
+          <button type="button" className="icon icon-edit" onClick={toEditing} aria-label="edit" />
+          <button type="button" className="icon icon-destroy" onClick={onDeleted} aria-label="destroy" />
         </div>
         <input
           type="text"
@@ -86,6 +90,9 @@ Task.defaultProps = {
   onEditingSubmit: () => {},
   done: false,
   created: Date.now(),
+  startTimer: () => {},
+  stopTimer: () => {},
+  remainingTime: 0,
 }
 
 Task.propTypes = {
@@ -96,4 +103,7 @@ Task.propTypes = {
   toEditing: PropTypes.func,
   onEditingSubmit: PropTypes.func,
   created: PropTypes.number,
+  remainingTime: PropTypes.number,
+  startTimer: PropTypes.func,
+  stopTimer: PropTypes.func,
 }

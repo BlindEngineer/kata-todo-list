@@ -55,3 +55,39 @@ button {
 button::-moz-focus-inner {
   border: none;
 }
+
+.timer {
+  font-size: 13px;
+  color: gray;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  padding-left: 55px;
+  padding-right: 5px;
+  flex-shrink: 0;
+}
+
+.todo-list li .icon-pause,
+.todo-list li .icon-play {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.todo-list li .icon-play {
+  font-size: 15px;
+}
+
+.icon-pause:after {
+  content: '⏸';
+  position: absolute;
+  right: 25px;
+  top: 5px;
+}
+
+.icon-play:after {
+  content: '▶';
+  position: absolute;
+  right: 55px;
+  top: 9px;
+}

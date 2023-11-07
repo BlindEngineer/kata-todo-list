@@ -8,8 +8,8 @@ export default class NewTaskForm extends React.Component {
     super(props)
     this.state = {
       label: '',
-      minute: null,
-      sec: null,
+      minute: '',
+      sec: '',
     }
   }
 
@@ -18,11 +18,11 @@ export default class NewTaskForm extends React.Component {
   }
 
   onChangeMinutes = (evt) => {
-    this.setState({ minute: evt.target.value })
+    this.setState({ minute: Math.abs(evt.target.value) })
   }
 
   onChangeSeconds = (evt) => {
-    this.setState({ sec: evt.target.value })
+    this.setState({ sec: Math.abs(evt.target.value) })
   }
 
   onSubmit = (evt) => {
@@ -53,6 +53,7 @@ export default class NewTaskForm extends React.Component {
             type="number"
             className="new-todo new-todo__num"
             placeholder="Min"
+            min={0}
             value={minute}
             onChange={this.onChangeMinutes}
             onKeyDown={(event) => (event.key === 'Enter' ? this.onSubmit(event) : null)}
@@ -61,6 +62,8 @@ export default class NewTaskForm extends React.Component {
             type="number"
             className="new-todo new-todo__num"
             placeholder="Sec"
+            min={0}
+            max="59"
             value={sec}
             onChange={this.onChangeSeconds}
             onKeyDown={(event) => (event.key === 'Enter' ? this.onSubmit(event) : null)}

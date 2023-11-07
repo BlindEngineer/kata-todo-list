@@ -4,7 +4,15 @@ import Task from '../Task/Task'
 
 import './TaskList.css'
 
-export default function TaskList({ todos, toCompleted, deleteItem, toEditing, onEditingSubmit }) {
+export default function TaskList({
+  todos,
+  toCompleted,
+  deleteItem,
+  toEditing,
+  onEditingSubmit,
+  startTimer,
+  stopTimer,
+}) {
   const listOfTasks = todos.map((todo) => {
     let ListItemClasses = todo.done ? 'completed' : ''
     if (!todo.done && todo.editing) {
@@ -23,6 +31,9 @@ export default function TaskList({ todos, toCompleted, deleteItem, toEditing, on
           onDeleted={() => deleteItem(todo.id)}
           toEditing={() => toEditing(todo.id)}
           onEditingSubmit={(text) => onEditingSubmit(todo.id, text)}
+          startTimer={() => startTimer(todo.id)}
+          stopTimer={() => stopTimer(todo.id)}
+          id={todo.id}
         />
       </li>
     )
@@ -37,6 +48,8 @@ TaskList.defaultProps = {
   deleteItem: () => {},
   toEditing: () => {},
   onEditingSubmit: () => {},
+  startTimer: () => {},
+  stopTimer: () => {},
 }
 
 TaskList.propTypes = {
@@ -45,4 +58,6 @@ TaskList.propTypes = {
   deleteItem: PropTypes.func,
   toEditing: PropTypes.func,
   onEditingSubmit: PropTypes.func,
+  startTimer: PropTypes.func,
+  stopTimer: PropTypes.func,
 }
